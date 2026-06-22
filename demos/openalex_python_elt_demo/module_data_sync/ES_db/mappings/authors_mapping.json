@@ -1,0 +1,82 @@
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 1,
+    "analysis": {
+      "analyzer": {
+        "ik_max_word_analyzer": {
+          "type": "custom",
+          "tokenizer": "ik_max_word"
+        },
+        "ik_smart_analyzer": {
+          "type": "custom",
+          "tokenizer": "ik_smart"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "author_id": {
+        "type": "long"
+      },
+      "name": {
+        "type": "text",
+        "analyzer": "ik_max_word_analyzer",
+        "search_analyzer": "ik_smart_analyzer",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "orcid": {
+        "type": "keyword"
+      },
+      "works_count": {
+        "type": "integer",
+        "null_value": 0
+      },
+      "cited_by_count": {
+        "type": "integer",
+        "null_value": 0
+      },
+      "current_institution": {
+        "type": "object",
+        "properties": {
+          "ins_id": {
+            "type": "long"
+          },
+          "name": {
+            "type": "text",
+            "analyzer": "ik_max_word_analyzer",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "country": {
+            "type": "keyword"
+          }
+        }
+      },
+      "research_areas": {
+        "type": "keyword"
+      },
+      "is_deleted": {
+        "type": "boolean",
+        "null_value": false
+      },
+      "created_at": {
+        "type": "date",
+        "format": "yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      },
+      "updated_at": {
+        "type": "date",
+        "format": "yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      }
+    }
+  }
+}

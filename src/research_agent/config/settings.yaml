@@ -1,0 +1,62 @@
+# Research Agent Configuration
+# =============================
+# Default values; override via environment variables (RA_ prefix) or
+# by passing a custom YAML file to ConfigLoader.
+
+openalex:
+  email: ""                       # your@institution.edu for polite pool
+  base_url: "https://api.openalex.org"
+  polite_pool: true
+  max_retries: 3
+  retry_delay: 1.0
+  cache_dir: ".cache/openalex"
+  rate_limit_per_second: 10.0
+
+persistence:
+  backend: mysql                  # mysql | sqlite
+  mysql:
+    host: "localhost"
+    port: 3306
+    user: "research_agent"
+    password: ""                  # override via RA_MYSQL_PASSWORD
+    database: "research_agent"
+    charset: "utf8mb4"
+    max_connections: 10
+    pool_recycle: 3600
+  sqlite_path: "artifacts/research_agent.db"
+
+graph:
+  backend: networkx               # networkx | neo4j
+  neo4j:
+    uri: "bolt://localhost:7687"
+    user: "neo4j"
+    password: ""                  # override via RA_NEO4J_PASSWORD
+    database: "neo4j"
+    connection_timeout: 5
+
+elasticsearch:
+  hosts:
+    - "localhost:9200"
+  connection_timeout: 5
+
+embedding:
+  backend: hash                   # hash | sentence_transformer | openai_api
+  local_model: "BAAI/bge-base-en-v1.5"
+  api_model: "text-embedding-3-small"
+  api_base_url: ""
+  api_key: ""                     # override via RA_EMBEDDING_API_KEY
+  vector_dim: 64
+  batch_size: 64
+
+vector_store:
+  backend: local_numpy            # local_numpy | qdrant
+  qdrant_url: "http://localhost:6333"
+  qdrant_collection: "research_evidence"
+  storage_dir: "artifacts/vectors"
+
+sync:
+  auto_neo4j: false               # sync to Neo4j after corpus creation
+  auto_es: false                  # sync to ES after corpus creation
+  auto_embed: true                # auto-trigger embedding after corpus creation
+  neo4j_batch_size: 500
+  es_batch_size: 1000

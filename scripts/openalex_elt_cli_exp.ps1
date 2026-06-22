@@ -1,0 +1,14 @@
+python scripts/openalex_elt_cli.py bert `
+  --provider openalex `
+  --openalex-email zhr20050305@outlook.com `
+  --init-schema `
+  --mysql-host localhost `
+  --mysql-user root `
+  --mysql-password ZHRhenry20050305 `
+  --mysql-database research_agent `
+  --sync-neo4j `
+  --neo4j-user neo4j `
+  --neo4j-password ZHRhenry20050305 `
+  --neo4j-database neo4jsicagentresearcher `
+  --max-depth 1 `
+  --max-citing-fanout 100

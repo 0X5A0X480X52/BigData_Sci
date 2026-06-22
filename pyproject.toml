@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "research-agent-mvp"
+version = "0.1.0"
+description = "MVP scaffold for an auditable research-field investigation agent."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+ui = ["streamlit>=1.30"]
+graph = ["networkx>=3.0", "neo4j>=5.0"]
+openalex = ["pyalex>=0.15"]
+pdf = ["pypdf>=4.0"]
+test = ["pytest>=8.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+

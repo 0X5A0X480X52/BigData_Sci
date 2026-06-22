@@ -1,0 +1,96 @@
+2025-11-28 17:12:04,746 - OpenAlexETL - INFO - ==================================================
+2025-11-28 17:12:04,746 - OpenAlexETL - INFO - 开始 ETL 流程
+2025-11-28 17:12:04,746 - OpenAlexETL - INFO - 查询: tiny test, 过滤: {'publication_year': 2023}, 最大数量: 1
+2025-11-28 17:12:04,746 - OpenAlexETL - INFO - ==================================================
+2025-11-28 17:12:04,746 - OpenAlexETL - INFO - [1/3] 开始获取数据...
+2025-11-28 17:12:04,836 - OpenAlexSource - INFO - pyalex 配置完成，email: test@example.com
+2025-11-28 17:12:07,734 - OpenAlexETL - INFO -   数据获取完成，共 1 条
+2025-11-28 17:12:07,734 - OpenAlexETL - INFO - [2/3] 开始清洗数据...
+2025-11-28 17:12:07,736 - OpenAlexPipeline - INFO - 批量处理完成: {'total': 1, 'success': 1, 'errors': 0, 'unique_authors': 5, 'unique_institutions': 3, 'unique_concepts': 27, 'unique_venues': 1, 'unique_countries': 3, 'unique_work_types': 1}
+2025-11-28 17:12:07,740 - OpenAlexETL - INFO -   数据清洗完成: 成功 1, 失败 0
+2025-11-28 17:12:07,740 - OpenAlexETL - INFO -   去重统计: {'total': 1, 'success': 1, 'errors': 0, 'unique_authors': 5, 'unique_institutions': 3, 'unique_concepts': 27, 'unique_venues': 1, 'unique_countries': 3, 'unique_work_types': 1}
+2025-11-28 17:12:07,741 - OpenAlexETL - INFO - [3/3] 跳过数据库写入
+2025-11-28 17:12:07,741 - OpenAlexETL - INFO - ==================================================
+2025-11-28 17:12:07,741 - OpenAlexETL - INFO - ETL 流程完成
+2025-11-28 17:12:07,741 - OpenAlexETL - INFO - 统计: {'fetched': 1, 'cleaned': 1, 'inserted': {}, 'errors': 0}
+2025-11-28 17:12:07,741 - OpenAlexETL - INFO - ==================================================
+2025-12-11 16:28:06,416 - OpenAlexETL - INFO - ==================================================
+2025-12-11 16:28:06,416 - OpenAlexETL - INFO - 开始 ETL 流程
+2025-12-11 16:28:06,416 - OpenAlexETL - INFO - 查询: deep learning, 过滤: None, 最大数量: 50
+2025-12-11 16:28:06,416 - OpenAlexETL - INFO - ==================================================
+2025-12-11 16:28:06,416 - OpenAlexETL - INFO - [1/4] 开始获取数据...
+2025-12-11 16:28:06,416 - 数据获取与清洗.cache.file_cache - INFO - 文件缓存初始化完成，缓存目录: C:\UserFiles\CS\数据库\Hfut_Database\任务三\数据获取与清洗\cache_data
+2025-12-11 16:28:06,700 - OpenAlexSource - INFO - pyalex 配置完成，email: your@email.com
+2025-12-11 16:28:10,908 - OpenAlexETL - INFO -   已获取 50 条记录...
+2025-12-11 16:28:10,908 - OpenAlexETL - INFO -   数据获取完成，共 50 条
+2025-12-11 16:28:10,914 - OpenAlexETL - INFO - [2/4] 开始清洗数据...
+2025-12-11 16:28:10,928 - OpenAlexPipeline - INFO - 批量处理完成: {'total': 50, 'success': 50, 'errors': 0, 'unique_authors': 294, 'unique_institutions': 103, 'unique_concepts': 253, 'unique_venues': 52, 'unique_countries': 20, 'unique_work_types': 4, 'total_citations': 6415, 'external_cited_works': 5178}
+2025-12-11 16:28:10,929 - OpenAlexETL - INFO -   数据清洗完成: 成功 50, 失败 0
+2025-12-11 16:28:10,929 - OpenAlexETL - INFO -   去重统计: {'total': 50, 'success': 50, 'errors': 0, 'unique_authors': 294, 'unique_institutions': 103, 'unique_concepts': 253, 'unique_venues': 52, 'unique_countries': 20, 'unique_work_types': 4, 'total_citations': 6415, 'external_cited_works': 5178}
+2025-12-11 16:28:10,930 - OpenAlexETL - INFO - [3/4] 跳过引用递归获取（depth=0）
+2025-12-11 16:28:10,930 - OpenAlexETL - INFO - [4/4] 开始写入数据库...
+2025-12-11 16:28:10,968 - MySQLConnection - INFO - 数据库连接成功: localhost:3306/Scientific_Info_db
+2025-12-11 16:28:11,600 - MySQLInserter - INFO - 引用关系插入完成: 成功 95, 跳过 6320
+2025-12-11 16:28:11,609 - MySQLInserter - INFO - 批量插入完成: {'countries': 20, 'work_types': 4, 'institutions': 103, 'authors': 294, 'venues': 52, 'concepts': 253, 'works': 50, 'work_author_institutions': 325, 'work_concepts': 682, 'work_venues': 60, 'citations': 95, 'citations_skipped': 6320}
+2025-12-11 16:28:11,609 - OpenAlexETL - INFO -   数据库写入完成: {'countries': 20, 'work_types': 4, 'institutions': 103, 'authors': 294, 'venues': 52, 'concepts': 253, 'works': 50, 'work_author_institutions': 325, 'work_concepts': 682, 'work_venues': 60, 'citations': 95, 'citations_skipped': 6320}
+2025-12-11 16:28:11,609 - OpenAlexETL - INFO - ==================================================
+2025-12-11 16:28:11,609 - OpenAlexETL - INFO - ETL 流程完成
+2025-12-11 16:28:11,609 - OpenAlexETL - INFO - 统计: {'fetched': 50, 'cleaned': 50, 'inserted': {'countries': 20, 'work_types': 4, 'institutions': 103, 'authors': 294, 'venues': 52, 'concepts': 253, 'works': 50, 'work_author_institutions': 325, 'work_concepts': 682, 'work_venues': 60, 'citations': 95, 'citations_skipped': 6320}, 'errors': 0, 'citation_stats': {'total_citations': 0, 'resolved_citations': 0, 'works_from_citations': 0}}
+2025-12-11 16:28:11,610 - OpenAlexETL - INFO - ==================================================
+2025-12-11 16:28:11,610 - MySQLConnection - INFO - 数据库连接已关闭
+2025-12-11 16:28:52,999 - OpenAlexETL - INFO - ==================================================
+2025-12-11 16:28:52,999 - OpenAlexETL - INFO - 开始 ETL 流程
+2025-12-11 16:28:52,999 - OpenAlexETL - INFO - 查询: deep learning, 过滤: None, 最大数量: 100
+2025-12-11 16:28:52,999 - OpenAlexETL - INFO - 引用递归深度: 1, 每论文最大引用: 200
+2025-12-11 16:28:52,999 - OpenAlexETL - INFO - ==================================================
+2025-12-11 16:28:52,999 - OpenAlexETL - INFO - [1/4] 开始获取数据...
+2025-12-11 16:28:52,999 - 数据获取与清洗.cache.file_cache - INFO - 文件缓存初始化完成，缓存目录: C:\UserFiles\CS\数据库\Hfut_Database\任务三\数据获取与清洗\cache_data
+2025-12-11 16:28:53,303 - OpenAlexSource - INFO - pyalex 配置完成，email: your@email.com
+2025-12-11 16:28:58,340 - OpenAlexETL - INFO -   已获取 50 条记录...
+2025-12-11 16:29:00,767 - OpenAlexETL - INFO -   已获取 100 条记录...
+2025-12-11 16:29:00,767 - OpenAlexETL - INFO -   数据获取完成，共 100 条
+2025-12-11 16:29:00,780 - OpenAlexETL - INFO - [2/4] 开始清洗数据...
+2025-12-11 16:29:00,804 - OpenAlexPipeline - INFO - 批量处理完成: {'total': 100, 'success': 100, 'errors': 0, 'unique_authors': 670, 'unique_institutions': 229, 'unique_concepts': 401, 'unique_venues': 96, 'unique_countries': 32, 'unique_work_types': 4, 'total_citations': 14594, 'external_cited_works': 11455}
+2025-12-11 16:29:00,808 - OpenAlexETL - INFO -   数据清洗完成: 成功 100, 失败 0
+2025-12-11 16:29:00,808 - OpenAlexETL - INFO -   去重统计: {'total': 100, 'success': 100, 'errors': 0, 'unique_authors': 670, 'unique_institutions': 229, 'unique_concepts': 401, 'unique_venues': 96, 'unique_countries': 32, 'unique_work_types': 4, 'total_citations': 14594, 'external_cited_works': 11455}
+2025-12-11 16:29:00,808 - OpenAlexETL - INFO - [3/4] 开始递归获取引用论文（深度: 1）...
+2025-12-11 16:29:00,809 - OpenAlexETL - INFO -   发现 11392 篇被引论文需要获取（深度 1）
+2025-12-11 16:31:25,416 - urllib3.connectionpool - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, '远程主机强迫关闭了一个现有的连接。', None, 10054, None)': /works?filter=openalex_id:W2523425190%7CW2142075667%7CW6761747281%7CW1973445088%7CW2603451662%7CW2971828241%7CW2607968723%7CW1996779216%7CW2111838090%7CW1922017469%7CW2556177465%7CW1592410721%7CW2611039151%7CW2097946161%7CW2341736626%7CW3093773656%7CW3106176216%7CW1513670756%7CW2143613362%7CW2110991941%7CW2010769244%7CW2052684349%7CW6765526216%7CW25946478%7CW2082718666%7CW2132424367%7CW2951234442%7CW2264887978%7CW2962854379%7CW6679852000%7CW1584428002%7CW2411476716%7CW2962731685%7CW2145191876%7CW2133665775%7CW2085835701%7CW3026126175%7CW2010581677%7CW6638591638%7CW2166880842%7CW2101608218%7CW2563780449%7CW6699381026%7CW2535327675%7CW2613718673%7CW4294130175%7CW1973435495%7CW66427752%7CW2963347351%7CW2120861206
+2025-12-11 16:37:19,480 - OpenAlexETL - INFO -   成功获取 5700 篇被引论文
+2025-12-11 16:37:19,500 - WorkCleaner - WARNING - 论文标题缺失，跳过该记录
+2025-12-11 16:37:19,588 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,611 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,629 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,629 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,630 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,684 - InstitutionCleaner - WARNING - 机构名称缺失，跳过该记录
+2025-12-11 16:37:19,684 - InstitutionCleaner - WARNING - 机构名称缺失，跳过该记录
+2025-12-11 16:37:19,755 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,755 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,756 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,756 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,756 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,756 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:19,756 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:20,065 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:20,235 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:20,283 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:20,587 - InstitutionCleaner - WARNING - 机构名称缺失，跳过该记录
+2025-12-11 16:37:20,587 - InstitutionCleaner - WARNING - 机构名称缺失，跳过该记录
+2025-12-11 16:37:20,599 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:20,671 - WorkCleaner - WARNING - 论文标题缺失，跳过该记录
+2025-12-11 16:37:20,680 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:20,747 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:20,748 - AuthorCleaner - WARNING - 作者姓名缺失，跳过该记录
+2025-12-11 16:37:20,761 - OpenAlexPipeline - INFO - 批量处理完成: {'total': 5700, 'success': 5698, 'errors': 2, 'unique_authors': 18294, 'unique_institutions': 2863, 'unique_concepts': 5417, 'unique_venues': 1290, 'unique_countries': 102, 'unique_work_types': 7, 'total_citations': 284139, 'external_cited_works': 152160}
+2025-12-11 16:37:20,847 - OpenAlexETL - INFO -   引用获取完成: {'total_citations': 14594, 'resolved_citations': 56683, 'works_from_citations': 5700}
+2025-12-11 16:37:20,847 - OpenAlexETL - INFO - [4/4] 开始写入数据库...
+2025-12-11 16:37:20,911 - MySQLConnection - INFO - 数据库连接成功: localhost:3306/Scientific_Info_db
+2025-12-11 16:39:20,717 - MySQLInserter - INFO - 引用关系插入完成: 成功 56612, 跳过 242121
+2025-12-11 16:39:20,860 - MySQLInserter - INFO - 批量插入完成: {'countries': 82, 'work_types': 3, 'institutions': 2782, 'authors': 18158, 'venues': 1244, 'concepts': 5172, 'works': 5798, 'work_author_institutions': 29349, 'work_concepts': 89097, 'work_venues': 5200, 'citations': 56612, 'citations_skipped': 242121}
+2025-12-11 16:39:20,860 - OpenAlexETL - INFO -   数据库写入完成: {'countries': 82, 'work_types': 3, 'institutions': 2782, 'authors': 18158, 'venues': 1244, 'concepts': 5172, 'works': 5798, 'work_author_institutions': 29349, 'work_concepts': 89097, 'work_venues': 5200, 'citations': 56612, 'citations_skipped': 242121}
+2025-12-11 16:39:20,860 - OpenAlexETL - INFO - ==================================================
+2025-12-11 16:39:20,861 - OpenAlexETL - INFO - ETL 流程完成
+2025-12-11 16:39:20,861 - OpenAlexETL - INFO - 统计: {'fetched': 100, 'cleaned': 100, 'inserted': {'countries': 82, 'work_types': 3, 'institutions': 2782, 'authors': 18158, 'venues': 1244, 'concepts': 5172, 'works': 5798, 'work_author_institutions': 29349, 'work_concepts': 89097, 'work_venues': 5200, 'citations': 56612, 'citations_skipped': 242121}, 'errors': 0, 'citation_stats': {'total_citations': 14594, 'resolved_citations': 56683, 'works_from_citations': 5700}}
+2025-12-11 16:39:20,861 - OpenAlexETL - INFO - ==================================================
+2025-12-11 16:39:20,861 - MySQLConnection - INFO - 数据库连接已关闭

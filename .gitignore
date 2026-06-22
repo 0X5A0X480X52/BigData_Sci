@@ -1,0 +1,10 @@
+**/.cache/**
+**/.claude/**                                                       
+**/.pytest_cache                                                 
+**/.pytest_tmp                                                   
+**/.qdarnt_data                                                  
+**/.vscode    
+**/artifacts
+**/__pycache__/
+**/outputs/
+**/.env

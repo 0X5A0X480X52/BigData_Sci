@@ -1,0 +1,119 @@
+# =====================================================
+# MySQL主从数据库同步系统 - 统一配置文件
+# =====================================================
+
+# MySQL主库配置
+mysql:
+  host: localhost
+  port: 3306
+  user: root
+  password: ZHRhenry20050305
+  database: Scientific_Info_db
+  charset: utf8mb4
+
+# Neo4j从库配置
+neo4j:
+  uri: bolt://localhost:7687
+  username: neo4j
+  password: ZHRhenry20050305
+  database: neo4j
+  max_connection_lifetime: 3600
+  max_connection_pool_size: 50
+
+# Elasticsearch从库配置
+elasticsearch:
+  hosts:
+    - localhost:9200
+    # - 192.168.1.10:9200  # 可添加多个节点
+  username: null  # 如果需要认证，设置用户名
+  password: null  # 如果需要认证，设置密码
+  use_ssl: false
+  verify_certs: false
+  timeout: 30
+  max_retries: 3
+
+# 同步策略配置
+sync:
+  # 批次大小
+  batch_size:
+    neo4j: 500      # Neo4j批量导入大小
+    elasticsearch: 1000  # ES bulk API批量大小
+  
+  # 同步模式
+  mode: full  # full=全量同步, incremental=增量同步
+  
+  # 增量同步起始时间（ISO格式）
+  # 例如: "2024-12-01T00:00:00"
+  since: null
+  
+  # 同步实体类型（留空表示全部）
+  # 可选值: work, author, venue, institution, concept, country, database, work_type
+  entity_types: []
+  
+  # 同步关系类型（留空表示全部）
+  # 可选值: authored, cites, published_in, about, works_at, located_in, affiliated_with, has_type
+  relationship_types: []
+  
+  # 多进程并行同步（预留）
+  workers: 1
+  
+  # 错误重试次数
+  max_retries: 3
+  
+  # 超时时间（秒）
+  timeout: 3600
+
+# 软删除策略
+soft_delete:
+  enabled: true  # 是否启用软删除
+  mark_field: is_deleted  # 软删除标记字段
+
+# 日志配置
+logging:
+  level: INFO  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: logs/sync.log
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+# CDC配置（预留）
+cdc:
+  enabled: false  # 是否启用CDC实时同步
+  provider: debezium  # debezium, maxwell, canal
+  
+  # Kafka配置（Debezium/Maxwell使用）
+  kafka:
+    bootstrap_servers:
+      - localhost:9092
+    group_id: mysql_cdc_consumer
+    topics:
+      - scientific_info.Scientific_Info_db.works
+      - scientific_info.Scientific_Info_db.authors
+      - scientific_info.Scientific_Info_db.institutions
+      - scientific_info.Scientific_Info_db.venues
+  
+  # Canal配置
+  canal:
+    host: localhost
+    port: 11111
+    destination: example
+    username: null
+    password: null
+
+# 监控配置（预留）
+monitoring:
+  enabled: false
+  prometheus:
+    port: 9090
+    metrics_path: /metrics
+  
+  # 性能指标阈值
+  thresholds:
+    sync_delay_seconds: 60  # 同步延迟告警阈值
+    error_rate: 0.05        # 错误率告警阈值（5%）
+
+# 错误恢复配置（预留）
+recovery:
+  checkpoint_enabled: false  # 是否启用检查点
+  checkpoint_table: sync_checkpoints  # 检查点表名
+  auto_resume: false  # 是否自动恢复
