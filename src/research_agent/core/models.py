@@ -87,6 +87,7 @@ class FeatureFlags:
     use_langgraph_runtime: bool = True
     llm_driven_react: bool = False       # LLM drives ReAct think (else deterministic)
     llm_driven_plan: bool = False        # LLM generates plan (else default template)
+    llm_report_writer: bool = False      # LLM writes final report from cached artifacts
 
     # ── Skills ──
     storm_perspective_skill: bool = True
@@ -160,6 +161,14 @@ class MCPResult:
     warnings: List[str] = field(default_factory=list)
     provenance: Dict[str, Any] = field(default_factory=dict)
     error: Optional[str] = None
+
+
+@dataclass
+class LLMReport:
+    markdown: str
+    citations: List[Dict[str, Any]] = field(default_factory=list)
+    source_pack: Dict[str, Any] = field(default_factory=dict)
+    warnings: List[str] = field(default_factory=list)
 
 
 @dataclass

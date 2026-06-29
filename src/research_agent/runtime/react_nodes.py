@@ -135,6 +135,12 @@ def evaluate_node(state: Dict[str, Any]) -> Dict[str, Any]:
 
 def synthesize_node(state: Dict[str, Any]) -> Dict[str, Any]:
     """Final synthesis: produce the field guide from accumulated working memory."""
+    config = state.get("config")
+    if getattr(getattr(config, "features", None), "llm_report_writer", False):
+        llm_result = _try_llm_report_synthesis(state)
+        if llm_result is not None:
+            return llm_result
+
     memory: Dict[str, Any] = state.get("working_memory", {})
     question: str = state.get("question", "")
     observations: List[Observation] = list(state.get("observations", []))
@@ -177,7 +183,44 @@ def synthesize_node(state: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-# ── Routing helpers ─────────────────────────────────────────
+
+def _try_llm_report_synthesis(state: Dict[str, Any]) -> Dict[str, Any] | None:
+    memory: Dict[str, Any] = state.get("working_memory", {})
+    mcp = state.get("mcp")
+    if mcp is None:
+        return None
+    try:
+        field_structure = memory.get("field_structure", {})
+        report = mcp.call(
+            "report-writer",
+            "write_research_report",
+            run_id=state.get("run_id", ""),
+            task_id=state.get("current_task_id", "react_synthesize"),
+            question=state.get("question", ""),
+            corpus=memory.get("field_corpus"),
+            field_structure=field_structure,
+            key_papers=memory.get("key_papers", field_structure.get("key_papers", [])),
+            evidence_bundle=memory.get("evidence_bundle"),
+        )
+        warnings = list(state.get("warnings", []))
+        warnings.extend(getattr(report, "warnings", []) or [])
+        return {
+            "field_guide": report.markdown,
+            "llm_report": report,
+            "report_citations": report.citations,
+            "warnings": warnings,
+            "done": True,
+            "success": True,
+            "last_event": {"type": "llm_report_synthesize_complete", "citations": len(report.citations)},
+        }
+    except Exception as exc:
+        warnings = list(state.get("warnings", []))
+        warnings.append(f"LLM report writer failed; used ReAct template synthesis: {exc}")
+        state["warnings"] = warnings
+        return None
+
+
+# Routing helpers
 
 def route_after_think(state: Dict[str, Any]) -> Literal["act", "synthesize"]:
     if state.get("done"):

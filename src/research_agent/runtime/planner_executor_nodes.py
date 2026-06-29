@@ -27,7 +27,12 @@ def plan_node(state: Dict[str, Any]) -> Dict[str, Any]:
     if use_llm:
         plan = _llm_generate_plan(state)
     else:
-        plan = build_default_plan(question, seed_work_id, search_query=search_query)
+        plan = build_default_plan(
+            question,
+            seed_work_id,
+            search_query=search_query,
+            use_llm_report_writer=getattr(config.features, "llm_report_writer", False) if config else False,
+        )
 
     # Persist plan to trace and artifact store
     trace = state.get("trace")
@@ -258,7 +263,13 @@ def _llm_generate_plan(state: Dict[str, Any]) -> List[Task]:
     question = state.get("question", "")
     seed_work_id = state.get("seed_work_id")
     query_plan = state.get("openalex_query_plan", {"primary_query": question})
-    default_plan = build_default_plan(question, seed_work_id, search_query=str(query_plan.get("primary_query") or question))
+    config = state.get("config")
+    default_plan = build_default_plan(
+        question,
+        seed_work_id,
+        search_query=str(query_plan.get("primary_query") or question),
+        use_llm_report_writer=getattr(config.features, "llm_report_writer", False) if config else False,
+    )
     try:
         client = OpenAICompatibleChatClient()
         response = client.complete_json(
@@ -300,7 +311,7 @@ def _llm_generate_plan(state: Dict[str, Any]) -> List[Task]:
                 parameters=parameters,
             ))
             seen_ids.add(task_id)
-        if parsed and any(task.skill == "generate_field_guide" for task in parsed):
+        if parsed and any(task.skill in {"generate_field_guide", "write_llm_report"} for task in parsed):
             return parsed
     except Exception:
         pass

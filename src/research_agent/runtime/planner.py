@@ -21,8 +21,15 @@ class Task:
     retries: int = 0
 
 
-def build_default_plan(question: str, seed_work_id: str | None = None, search_query: str | None = None) -> List[Task]:
+def build_default_plan(
+    question: str,
+    seed_work_id: str | None = None,
+    search_query: str | None = None,
+    use_llm_report_writer: bool = False,
+) -> List[Task]:
     corpus_query = search_query or question
+    final_skill = "write_llm_report" if use_llm_report_writer else "generate_field_guide"
+    final_title = "Write LLM report with evidence citations" if use_llm_report_writer else "Write field guide with evidence and reading route"
     tasks = [
         Task("T1", "scope_new_field", "Scope the unfamiliar research field",
              parameters={"question": question}),
@@ -36,7 +43,7 @@ def build_default_plan(question: str, seed_work_id: str | None = None, search_qu
              depends_on=["T4"]),
         Task("T6", "analyze_key_papers", "Materialize and retrieve evidence for selected papers",
              depends_on=["T5"]),
-        Task("T7", "generate_field_guide", "Write field guide with evidence and reading route",
+        Task("T7", final_skill, final_title,
              depends_on=["T1", "T4", "T5", "T6"]),
     ]
     if seed_work_id:

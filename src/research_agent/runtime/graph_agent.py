@@ -227,7 +227,12 @@ class ResearchGraphAgent:
         question = state.get("question", "")
         seed = state.get("seed_work_id")
         query_plan = state.get("openalex_query_plan", {"primary_query": question})
-        plan = build_default_plan(question, seed, search_query=str(query_plan.get("primary_query") or question))
+        plan = build_default_plan(
+            question,
+            seed,
+            search_query=str(query_plan.get("primary_query") or question),
+            use_llm_report_writer=getattr(self.config.features, "llm_report_writer", False),
+        )
         shared = self._base_skill_state(
             run_id=state.get("run_id", ""),
             question=question,

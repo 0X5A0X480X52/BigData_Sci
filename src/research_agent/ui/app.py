@@ -181,6 +181,7 @@ def _sidebar_options() -> tuple[ResearchRunOptions, str, str, bool]:
         llm_query = st.checkbox("LLM OpenAlex query rewrite", value=llm_backend != "off", disabled=llm_backend == "off")
         llm_plan = st.checkbox("LLM-generated plan", value=False, disabled=llm_backend == "off")
         llm_react = st.checkbox("LLM ReAct action selection", value=False, disabled=llm_backend == "off")
+        llm_report_writer = st.checkbox("LLM report writer", value=False, disabled=llm_backend == "off")
         default_base = "https://api.deepseek.com" if llm_backend == "deepseek" else os.getenv("RA_LLM_BASE_URL", "")
         default_model = "deepseek-chat" if llm_backend == "deepseek" else os.getenv("RA_LLM_MODEL", "")
         llm_base_url = st.text_input("LLM base URL", default_base, disabled=llm_backend == "off")
@@ -227,6 +228,7 @@ def _sidebar_options() -> tuple[ResearchRunOptions, str, str, bool]:
         llm_react=llm_backend != "off" and llm_react,
         llm_plan=llm_backend != "off" and llm_plan,
         llm_query=llm_backend != "off" and llm_query,
+        llm_report_writer=llm_backend != "off" and llm_report_writer,
         llm_base_url=llm_base_url,
         llm_model=llm_model,
         llm_api_key=llm_api_key,
@@ -274,8 +276,36 @@ def _render_report(run_root: Path) -> None:
     if guide_path.exists():
         st.markdown(guide_path.read_text(encoding="utf-8"))
         st.download_button("Download field guide", guide_path.read_bytes(), file_name="field_guide.md")
+        _render_report_citations(run_root)
     else:
         st.warning("No field guide generated.")
+
+
+def _render_report_citations(run_root: Path) -> None:
+    citations_path = run_root / "reports" / "report_citations.json"
+    if not citations_path.exists():
+        return
+    citations = _read_json(citations_path)
+    if not isinstance(citations, list) or not citations:
+        return
+    st.divider()
+    st.subheader("Evidence Used")
+    for citation in citations:
+        citation_id = citation.get("citation_id", "E?")
+        title = citation.get("title") or citation.get("work_id") or "Untitled"
+        source_type = citation.get("source_type", "source")
+        score = citation.get("score", "")
+        with st.expander(f"[{citation_id}] {title}"):
+            cols = st.columns(3)
+            cols[0].caption(f"Source: {source_type}")
+            cols[1].caption(f"Work ID: {citation.get('work_id', '')}")
+            cols[2].caption(f"Score: {score}")
+            snippet = citation.get("snippet", "")
+            if snippet:
+                st.write(snippet)
+            artifact_path = citation.get("artifact_path", "")
+            if artifact_path:
+                st.caption(f"Artifact: {artifact_path}")
 
 
 def _render_plan(run_root: Path, run: Any) -> None:

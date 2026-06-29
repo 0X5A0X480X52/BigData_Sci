@@ -11,10 +11,13 @@ from research_agent.mcp_servers.evidence_rag.server import EvidenceRAGMCPServer
 from research_agent.mcp_servers.evidence_rag.service_bridge import EvidenceRAGServiceBridge
 from research_agent.mcp_servers.graph_analytics.server import GraphAnalyticsMCPServer
 from research_agent.mcp_servers.graph_analytics.service_bridge import GraphAnalyticsServiceBridge
+from research_agent.mcp_servers.report_writer.server import ReportWriterMCPServer
+from research_agent.mcp_servers.report_writer.service_bridge import ReportWriterServiceBridge
 from research_agent.mcp_servers.scholarly_data.server import ScholarlyDataMCPServer
 from research_agent.mcp_servers.scholarly_data.service_bridge import ScholarlyDataServiceBridge
 from research_agent.services.evidence_rag import EvidenceRAGService
 from research_agent.services.graph_analytics import GraphAnalyticsService
+from research_agent.services.report_writer import ReportWriterService
 from research_agent.services.scholarly_data import ScholarlyDataService
 
 from .budget import BudgetTracker
@@ -72,11 +75,13 @@ class ResearchAgent:
             vector_store=self.vector_store,
             repository=self.repository,
         )
+        report_service = ReportWriterService(placeholder_store)
 
         mcp_servers = {
             "scholarly-data": ScholarlyDataMCPServer(ScholarlyDataServiceBridge(scholarly_service)),
             "graph-analytics": GraphAnalyticsMCPServer(GraphAnalyticsServiceBridge(graph_service)),
             "evidence-rag": EvidenceRAGMCPServer(EvidenceRAGServiceBridge(evidence_service)),
+            "report-writer": ReportWriterMCPServer(ReportWriterServiceBridge(report_service)),
         }
         mcp = MCPManager(mcp_servers, budget, trace)
 
@@ -87,7 +92,7 @@ class ResearchAgent:
             artifact_root=self.config.artifact_root,
             trace=trace,
             budget=budget,
-            services=(scholarly_service, graph_service, evidence_service),
+            services=(scholarly_service, graph_service, evidence_service, report_service),
         )
         return graph_agent.run(question, seed_work_id, openalex_query_plan=self.openalex_query_plan)
 

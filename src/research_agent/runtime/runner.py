@@ -41,6 +41,7 @@ class ResearchRunOptions:
     llm_react: bool = False
     llm_plan: bool = False
     llm_query: bool = False
+    llm_report_writer: bool = False
     llm_base_url: str = ""
     llm_model: str = ""
     llm_api_key: str = ""
@@ -101,6 +102,7 @@ def run_research_workflow(
         qdrant_sync=options.vector_backend == "qdrant",
         llm_driven_react=options.llm_react,
         llm_driven_plan=options.llm_plan,
+        llm_report_writer=options.llm_report_writer,
     )
     config = RunConfig(
         max_field_corpus=options.max_field_corpus,
