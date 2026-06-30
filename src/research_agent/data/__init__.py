@@ -6,6 +6,9 @@ from .cleaners import (
 )
 from .embedding_adapter import Embedder, HashEmbedder, OpenAIEmbedder, SentenceTransformerEmbedder, build_embedder
 from .embedding_pipeline import EmbeddingPipeline, EmbeddingJob, EmbeddingJobResult
+from .openalex_api_bulk_source import OpenAlexApiBulkSource, OpenAlexApiBulkStats
+from .openalex_cli_planner import OpenAlexCliPlanBuilder
+from .openalex_cli_source import OpenAlexCliSource
 from .openalex_source import OpenAlexSource
 from .parser_adapter import ParserAdapter, ParsedDocument, PageContent
 from .pdf_manager import PDFManager, PDFAsset, LocalObjectStorage
@@ -17,6 +20,8 @@ __all__ = [
     "Embedder", "HashEmbedder", "OpenAIEmbedder", "SentenceTransformerEmbedder", "build_embedder",
     "EmbeddingPipeline", "EmbeddingJob", "EmbeddingJobResult",
     "LocalNumpyStore", "LocalObjectStorage",
+    "OpenAlexApiBulkSource", "OpenAlexApiBulkStats",
+    "OpenAlexCliPlanBuilder", "OpenAlexCliSource",
     "OpenAlexSource",
     "PageContent", "ParsedDocument", "ParserAdapter",
     "PDFAsset", "PDFManager",

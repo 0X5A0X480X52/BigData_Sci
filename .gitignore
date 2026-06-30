@@ -8,3 +8,6 @@
 **/__pycache__/
 **/outputs/
 **/.env
+demos/data
+demos/openAlex
+demos/analysis_project
